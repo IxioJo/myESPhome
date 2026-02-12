@@ -8,6 +8,8 @@ static const char *const TAG = "minipid";
 static const float coeffP = 0.001f;
 static const float coeffI = 0.0001f;
 static const float coeffD = 0.001f;
+static const float maxIntegral = 9000 ;
+
 
 void MINIPIDComponent::setup() { 
   ESP_LOGCONFIG(TAG, "Setting up MINIPIDComponent...");
@@ -60,6 +62,12 @@ void MINIPIDComponent::pid_update() {
     tmp = (this->error_ * this->dt_);
     if (!std::isnan(tmp)){
       this->integral_ += tmp;
+		if(this->integral_ > maxIntegral){
+			this->integral_ = maxIntegral;
+		}
+		if(this->integral_ < -maxIntegral){
+			this->integral_ = -maxIntegral;
+		}		
     }
     this->derivative_ = (this->error_ - this->previous_error_) / this->dt_;
 
@@ -129,6 +137,7 @@ void MINIPIDComponent::pid_update() {
 
  }  // namespace minipid
 }  // namespace esphome
+
 
 
 
