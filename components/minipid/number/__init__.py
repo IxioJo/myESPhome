@@ -79,7 +79,7 @@ async def to_code(config):
   minipid_component = await cg.get_variable(config[CONF_MINIPID_ID])
   if setpoint_config := config.get(CONF_SETPOINT):
         n = await number.new_number(
-            setpoint_config, min_value=-4000.0, max_value=4000.0, step=10
+            setpoint_config, min_value=-4000.0, max_value=4000.0, step=1
         )
         await cg.register_component(n, setpoint_config)
         await cg.register_parented(n, minipid_component)
@@ -87,7 +87,7 @@ async def to_code(config):
         
   if kp_config := config.get(CONF_KP):
         n = await number.new_number(
-            kp_config, min_value=0.0, max_value=10.0, step=0.1
+            kp_config, min_value=0.0, max_value=1.0, step=0.001
         )
         await cg.register_component(n, kp_config)
         await cg.register_parented(n, minipid_component)
@@ -95,7 +95,7 @@ async def to_code(config):
   
   if ki_config := config.get(CONF_KI):
         n = await number.new_number(
-            ki_config, min_value=0.0, max_value=10.0, step=0.1
+            ki_config, min_value=0.0, max_value=1.0, step=0.0001
         )
         await cg.register_component(n, ki_config)
         await cg.register_parented(n, minipid_component)
@@ -103,7 +103,7 @@ async def to_code(config):
 
   if kd_config := config.get(CONF_KD):
         n = await number.new_number(
-            kd_config, min_value=0.0, max_value=10.0, step=0.1
+            kd_config, min_value=0.0, max_value=1.0, step=0.001
         )
         await cg.register_component(n, kd_config)
         await cg.register_parented(n, minipid_component)
@@ -124,6 +124,7 @@ async def to_code(config):
         await cg.register_component(n, output_max_config)
         await cg.register_parented(n, minipid_component)
         cg.add(minipid_component.set_output_max_number(n))
+
 
 
 
