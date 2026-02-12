@@ -101,6 +101,9 @@ void MINIPIDComponent::pid_update() {
 #ifdef USE_SWITCH  
     if (!this->current_activation_ ){
       this->output_ = 0.0f;
+	  this->integral_  = 0.0f;
+	  this->previous_output_ = 0.0f;
+	  this->previous_error_ = 0.0f;		
     }
 #endif  
 
@@ -126,6 +129,7 @@ void MINIPIDComponent::pid_update() {
 
  }  // namespace minipid
 }  // namespace esphome
+
 
 
 
